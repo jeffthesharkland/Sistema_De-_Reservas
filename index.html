@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CINBEPOLIS - Reservas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <div class="lava-lamp" aria-hidden="true">
+    <span class="blob blob-a"></span>
+    <span class="blob blob-b"></span>
+    <span class="blob blob-c"></span>
+    <span class="blob blob-d"></span>
+  </div>
+
+  <header class="topbar">
+    <h1>CINBEPOLIS</h1>
+    <button id="themeToggle" class="btn ghost" type="button">Modo oscuro</button>
+  </header>
+
+  <main class="layout">
+    <section class="card">
+      <h2>1. Elige tu pelicula</h2>
+      <label for="movieSelect">Pelicula y horario</label>
+      <select id="movieSelect"></select>
+
+      <div class="movie-preview">
+        <img id="moviePoster" alt="Poster de la pelicula" />
+        <div class="preview-content">
+          <h3 id="movieTitle"></h3>
+          <p id="movieSchedule"></p>
+          <p id="moviePrice"></p>
+          <details open>
+            <summary>Vista previa y sinopsis</summary>
+            <p id="movieSynopsis"></p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. Selecciona asientos</h2>
+      <div class="legend">
+        <span><i class="seat available"></i> Disponible</span>
+        <span><i class="seat selected"></i> Seleccionado</span>
+        <span><i class="seat occupied"></i> Ocupado</span>
+      </div>
+      <div class="screen">PANTALLA</div>
+      <div id="seatGrid" class="seat-grid" aria-label="Mapa de asientos"></div>
+      <h3>2.1 Dulceria</h3>
+      <label class="toggle-row">
+        <input id="snackToggle" type="checkbox" />
+        Agregar dulceria (opcional)
+      </label>
+      <div id="snackPanel" class="snack-columns snack-disabled">
+        <div>
+          <h3>Combos</h3>
+          <div id="comboList" class="snack-list"></div>
+        </div>
+        <div>
+          <h3>Chucherias</h3>
+          <div id="snackList" class="snack-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. Resumen y pago</h2>
+      <div class="summary">
+        <p>Boletos: <strong id="ticketCount">0</strong></p>
+        <p>Subtotal asientos: <strong id="ticketBaseGTQ">Q 0.00</strong> / <strong id="ticketBaseUSD">$ 0.00</strong></p>
+        <p>Descuento boletos: <strong id="ticketDiscountGTQ">Q 0.00</strong> / <strong id="ticketDiscountUSD">$ 0.00</strong></p>
+        <p>Total asientos: <strong id="ticketSubtotalGTQ">Q 0.00</strong> / <strong id="ticketSubtotalUSD">$ 0.00</strong></p>
+        <p>Dulceria: <strong id="snackTotalGTQ">Q 0.00</strong> / <strong id="snackTotalUSD">$ 0.00</strong></p>
+        <p>Total final: <strong id="totalGTQ">Q 0.00</strong> / <strong id="totalUSD">$ 0.00</strong></p>
+      </div>
+
+      <form id="paymentForm" class="form-grid">
+        <input id="customerName" type="text" placeholder="Nombre completo" required />
+        <input id="customerEmail" type="email" placeholder="Correo electronico" required />
+        <input id="cardNumber" type="text" maxlength="19" placeholder="Numero de tarjeta" required />
+        <input id="cardDate" type="text" maxlength="5" inputmode="numeric" placeholder="MM/AA" required />
+        <input id="cardCvv" type="password" maxlength="4" inputmode="numeric" placeholder="CVV" required />
+        <button class="btn primary" type="submit">Pagar y reservar</button>
+      </form>
+    </section>
+
+    <section id="reservationCard" class="card hidden">
+      <h2>4. Gestion de reserva</h2>
+      <div id="reservationState">No hay reserva activa.</div>
+      <div class="actions">
+        <button id="pdfBtn" class="btn ghost" type="button" disabled>Generar factura PDF</button>
+      </div>
+
+      <form id="cancelForm" class="cancel-block">
+        <label for="cancelReason">Cancelar reserva (motivo):</label>
+        <select id="cancelReason">
+          <option value="Cambio de planes">Cambio de planes</option>
+          <option value="Error al seleccionar pelicula">Error al seleccionar pelicula</option>
+          <option value="Error en horario">Error en horario</option>
+          <option value="Motivo personal">Motivo personal</option>
+        </select>
+        <button id="cancelBtn" class="btn danger" type="submit" disabled>Cancelar reserva</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
